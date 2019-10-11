@@ -19,6 +19,9 @@ namespace DrMusicREST.Controllers
             new Record("Lucas Hjælp", "Morten", new TimeSpan(0,1,20), new DateTime(2004, 4, 1), 3),
             new Record("Fuck dig Morten", "Lucas", new TimeSpan(0,5,40), new DateTime(2004, 1, 1), 4)
         };
+
+        private static int _nextId = 5;
+
         // GET: api/Records
         [HttpGet]
         public IEnumerable<Record> Get()
@@ -38,6 +41,7 @@ namespace DrMusicREST.Controllers
         [HttpPost]
         public void Post([FromBody] Record record)
         {
+            record.Id = _nextId++;
             records.Add(record);
         }
 
@@ -65,5 +69,20 @@ namespace DrMusicREST.Controllers
             Record record = Get(id);
             records.Remove(record);
         }
+
+        [HttpGet]
+        [Route("title/{title}")]
+        public IEnumerable<Record> GetByTitle(string title)
+        {
+            return records.FindAll(record => record.Title.ToLower().Contains(title.ToLower()));
+        }
+
+        [HttpGet]
+        [Route("artist/{artist}")]
+        public IEnumerable<Record> GetByArtist(string artist)
+        {
+            return records.FindAll(record => record.Artist.ToLower().Contains(artist.ToLower()));
+        }
+
     }
 }
