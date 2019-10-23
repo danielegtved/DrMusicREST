@@ -16,6 +16,11 @@ namespace DrMusicREST.Model
             Id = id;
         }
 
+        public Record()
+        {
+            
+        }
+
         public string Title { get; set; }
         public string Artist { get; set; }
         public TimeSpan Duration { get; set; }
